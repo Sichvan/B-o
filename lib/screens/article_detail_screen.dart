@@ -27,12 +27,10 @@ class _ArticleDetailScreenState extends State<ArticleDetailScreen> {
     // Gọi parseAsync để extract nội dung từ URL
     _articleFuture = readability.parseAsync(widget.articleUrl).then((article) {
       // Không cần kiểm tra null ở đây vì parseAsync có thể trả về null, nhưng then sẽ xử lý
-      if (article != null) {
-        // debugPrint('Title: ${article.title}');  // Thay print bằng debugPrint nếu cần, hoặc bỏ
-        // debugPrint('Content length: ${article.content?.length ?? 0}');  // Safe access
-        return article;
-      }
-      return null;
+      // debugPrint('Title: ${article.title}');  // Thay print bằng debugPrint nếu cần, hoặc bỏ
+      // debugPrint('Content length: ${article.content?.length ?? 0}');  // Safe access
+      return article;
+          return null;
     }).catchError((error) {
       // debugPrint('Lỗi khi fetch/parse: $error');  // Tương tự
       return null;
