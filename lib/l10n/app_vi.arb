@@ -27,5 +27,7 @@
     "categoryEducation": "Giáo dục",
     "categoryHealth": "Sức khỏe",
     "categoryOther": "Nhà đất",
-    "categoryTechnology": "Xe cộ"
+    "categoryTechnology": "Xe cộ",
+    "searchByTitle": "Tìm kiếm theo tiêu đề...",
+    "noArticlesFound": "Không tìm thấy bài viết nào."
 }

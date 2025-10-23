@@ -72,4 +72,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get categoryTechnology => 'Technology';
+
+  @override
+  String get searchByTitle => 'Search by title...';
+
+  @override
+  String get noArticlesFound => 'No articles found.';
 }

@@ -27,5 +27,7 @@
     "categoryEducation": "Education",
     "categoryHealth": "Health",
     "categoryOther": "Real Estate",
-    "categoryTechnology": "Technology"
+    "categoryTechnology": "Technology",
+    "searchByTitle": "Search by title...",
+    "noArticlesFound": "No articles found."
 }

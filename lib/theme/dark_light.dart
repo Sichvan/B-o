@@ -33,25 +33,25 @@ final ThemeData lightTheme = ThemeData(
   ),
 );
 
-
 // --- Theme Tối ---
-// Giao diện tối hiện đại, sử dụng màu đen và xanh dương để làm nổi bật nội dung.
 final ThemeData darkTheme = ThemeData(
   brightness: Brightness.dark,
-  primarySwatch: Colors.blue, // Màu cho các widget chính trong theme tối
+  primarySwatch: Colors.blue,
   primaryColor: Colors.blue,
   useMaterial3: true,
   appBarTheme: const AppBarTheme(
-    backgroundColor: Colors.black, // AppBar màu đen tuyền
-    foregroundColor: Colors.white, // Chữ và icon trên AppBar màu trắng
+    // --- SỬA Ở ĐÂY ---
+    backgroundColor: Colors.blue, // Đổi từ Colors.black thành Colors.blue
+    // --- KẾT THÚC SỬA ---
+    foregroundColor: Colors.white,
     titleTextStyle: TextStyle(
       color: Colors.white,
       fontSize: 20,
       fontWeight: FontWeight.bold,
     ),
   ),
-  scaffoldBackgroundColor: const Color(0xFF121212), // Màu nền tối tiêu chuẩn
-  cardColor: const Color(0xFF1E1E1E), // Màu cho các thẻ (Card)
+  scaffoldBackgroundColor: const Color(0xFF121212),
+  cardColor: const Color(0xFF1E1E1E),
   floatingActionButtonTheme: const FloatingActionButtonThemeData(
     backgroundColor: Colors.blue,
     foregroundColor: Colors.white,
@@ -66,4 +66,3 @@ final ThemeData darkTheme = ThemeData(
     ),
   ),
 );
-

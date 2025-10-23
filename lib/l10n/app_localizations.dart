@@ -223,6 +223,18 @@ abstract class AppLocalizations {
   /// In vi, this message translates to:
   /// **'Xe cộ'**
   String get categoryTechnology;
+
+  /// No description provided for @searchByTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tìm kiếm theo tiêu đề...'**
+  String get searchByTitle;
+
+  /// No description provided for @noArticlesFound.
+  ///
+  /// In vi, this message translates to:
+  /// **'Không tìm thấy bài viết nào.'**
+  String get noArticlesFound;
 }
 
 class _AppLocalizationsDelegate

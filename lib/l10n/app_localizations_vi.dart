@@ -72,4 +72,10 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get categoryTechnology => 'Xe cộ';
+
+  @override
+  String get searchByTitle => 'Tìm kiếm theo tiêu đề...';
+
+  @override
+  String get noArticlesFound => 'Không tìm thấy bài viết nào.';
 }
