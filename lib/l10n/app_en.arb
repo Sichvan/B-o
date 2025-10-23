@@ -1,0 +1,31 @@
+{
+    "@@locale": "en",
+    "appName": "News 24h",
+    "settingsAndMenu": "Settings & Menu",
+    "darkMode": "Dark Mode",
+    "switchLanguage": "Switch Language",
+    "savedArticles": "Saved Articles",
+    "viewHistory": "View History",
+    "login": "Login",
+    "errorFetchingData": "Error fetching data: {message}",
+    "@errorFetchingData": {
+        "placeholders": {
+            "message": {
+                "type": "String"
+            }
+        }
+    },
+    "categoryTop": "Top",
+    "categoryPolitics": "Politics",
+    "categoryWorld": "World",
+    "categoryBusiness": "Business",
+    "categoryScience": "Science",
+    "categoryEntertainment": "Entertainment",
+    "categorySports": "Sports",
+    "categoryEntertainment2": "Entertainment",
+    "categoryCrime": "Crime",
+    "categoryEducation": "Education",
+    "categoryHealth": "Health",
+    "categoryOther": "Real Estate",
+    "categoryTechnology": "Technology"
+}

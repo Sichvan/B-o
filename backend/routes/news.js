@@ -1,5 +1,4 @@
-// backend/routes/news.js
-
+// routes/news.js
 const express = require('express');
 const router = express.Router();
 const axios = require('axios');
@@ -7,20 +6,18 @@ const axios = require('axios');
 router.get('/', async (req, res) => {
   try {
     const apiKey = process.env.NEWSDATA_API_KEY;
-
-    // --- SỬA ĐỔI ---
-    // Lấy category từ query string (ví dụ: /api/news?category=top)
     const category = req.query.category;
 
-    // Xây dựng URL cơ bản
-    let apiUrl = `https://newsdata.io/api/1/news?apikey=${apiKey}&language=vi&image=1&size=10`;
+    // --- SỬA ĐỔI ---
+    // Lấy ngôn ngữ từ query, mặc định là 'vi' nếu không được cung cấp
+    const language = req.query.language || 'vi';
 
-    // Nếu có category, thêm nó vào URL
+    let apiUrl = `https://newsdata.io/api/1/news?apikey=${apiKey}&language=${language}&image=1&size=10`;
+    // --- KẾT THÚC SỬA ĐỔI ---
+
     if (category) {
       apiUrl += `&category=${category}`;
     }
-    // --- KẾT THÚC SỬA ĐỔI ---
-
     const response = await axios.get(apiUrl);
     res.json(response.data.results);
 

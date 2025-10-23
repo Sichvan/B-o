@@ -2,12 +2,17 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/theme_provider.dart';
+import '../providers/language_provider.dart';
+import '../l10n/app_localizations.dart';
 
 class AppDrawer extends StatelessWidget {
   const AppDrawer({super.key});
 
   @override
   Widget build(BuildContext context) {
+    // 3. Lấy đối tượng l10n (localization)
+    final l10n = AppLocalizations.of(context)!;
+
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
@@ -16,10 +21,10 @@ class AppDrawer extends StatelessWidget {
             decoration: BoxDecoration(
               color: Theme.of(context).primaryColor,
             ),
+            // 4. Thay thế text
             child: Text(
-              'Cài đặt & Menu',
+              l10n.settingsAndMenu, // <-- SỬA
               style: TextStyle(
-                // Đảm bảo chữ trên header luôn dễ đọc
                 color: Theme.of(context).appBarTheme.foregroundColor,
                 fontSize: 24,
               ),
@@ -28,7 +33,8 @@ class AppDrawer extends StatelessWidget {
           Consumer<ThemeProvider>(
             builder: (context, themeProvider, child) {
               return SwitchListTile(
-                title: const Text('Chế độ tối'),
+                // 4. Thay thế text
+                title: Text(l10n.darkMode), // <-- SỬA
                 secondary: Icon(
                   themeProvider.isDarkMode ? Icons.dark_mode : Icons.light_mode,
                 ),
@@ -42,34 +48,36 @@ class AppDrawer extends StatelessWidget {
 
           ListTile(
             leading: const Icon(Icons.language),
-            title: const Text('Chuyển ngôn ngữ'),
+            // 4. Thay thế text
+            title: Text(l10n.switchLanguage), // <-- SỬA
             onTap: () {
-              // TODO: Thêm logic chuyển ngôn ngữ tại đây
+              // 5. Thêm logic chuyển ngôn ngữ
+              context.read<LanguageProvider>().toggleLanguage();
               Navigator.pop(context);
             },
           ),
           ListTile(
             leading: const Icon(Icons.bookmark_border),
-            title: const Text('Bài báo đã lưu'),
+            // 4. Thay thế text
+            title: Text(l10n.savedArticles), // <-- SỬA
             onTap: () {
-              // TODO: Chuyển sang màn hình bài báo đã lưu
               Navigator.pop(context);
             },
           ),
           ListTile(
             leading: const Icon(Icons.history),
-            title: const Text('Lịch sử xem'),
+            // 4. Thay thế text
+            title: Text(l10n.viewHistory), // <-- SỬA
             onTap: () {
-              // TODO: Chuyển sang màn hình lịch sử xem
               Navigator.pop(context);
             },
           ),
           const Divider(),
           ListTile(
             leading: const Icon(Icons.login),
-            title: const Text('Đăng nhập'),
+            // 4. Thay thế text
+            title: Text(l10n.login), // <-- SỬA
             onTap: () {
-              // TODO: Chuyển sang màn hình đăng nhập
               Navigator.pop(context);
             },
           ),

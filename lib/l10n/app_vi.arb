@@ -1,0 +1,31 @@
+{
+    "@@locale": "vi",
+    "appName": "Tin tức 24h",
+    "settingsAndMenu": "Cài đặt & Menu",
+    "darkMode": "Chế độ tối",
+    "switchLanguage": "Chuyển ngôn ngữ",
+    "savedArticles": "Bài báo đã lưu",
+    "viewHistory": "Lịch sử xem",
+    "login": "Đăng nhập",
+    "errorFetchingData": "Lỗi khi tải dữ liệu: {message}",
+    "@errorFetchingData": {
+        "placeholders": {
+            "message": {
+                "type": "String"
+            }
+        }
+    },
+    "categoryTop": "Tin nóng",
+    "categoryPolitics": "Xã hội",
+    "categoryWorld": "Thế giới",
+    "categoryBusiness": "Kinh tế",
+    "categoryScience": "Khoa học",
+    "categoryEntertainment": "Văn hóa",
+    "categorySports": "Thể thao",
+    "categoryEntertainment2": "Giải trí",
+    "categoryCrime": "Pháp luật",
+    "categoryEducation": "Giáo dục",
+    "categoryHealth": "Sức khỏe",
+    "categoryOther": "Nhà đất",
+    "categoryTechnology": "Xe cộ"
+}

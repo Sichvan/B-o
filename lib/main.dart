@@ -2,9 +2,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'providers/news_provider.dart';
-import 'providers/theme_provider.dart'; // <-- 1. Import ThemeProvider
+import 'providers/theme_provider.dart';
+import 'providers/language_provider.dart';
 import 'screens/home_screen.dart';
-import 'theme/dark_light.dart'; // <-- 2. Import file theme của bạn
+import 'theme/dark_light.dart';
+import '../l10n/app_localizations.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,27 +18,38 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // 3. Sử dụng MultiProvider để quản lý nhiều provider
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => NewsProvider()),
-        ChangeNotifierProvider(create: (context) => ThemeProvider()), // <-- 4. Thêm ThemeProvider
+        ChangeNotifierProvider(create: (context) => ThemeProvider()),
+        ChangeNotifierProvider(create: (context) => LanguageProvider()), // <-- 3. Thêm LanguageProvider
       ],
-      // 5. Dùng Consumer<ThemeProvider> để build lại MaterialApp khi theme thay đổi
-      child: Consumer<ThemeProvider>(
-        builder: (context, themeProvider, child) {
+      // 4. Dùng Consumer<ThemeProvider> VÀ <LanguageProvider>
+      child: Consumer2<ThemeProvider, LanguageProvider>(
+        builder: (context, themeProvider, langProvider, child) { // <-- Sửa builder
           return MaterialApp(
             title: 'News App',
-            debugShowCheckedModeBanner: false, // Tắt banner "Debug"
+            debugShowCheckedModeBanner: false,
 
-            // 6. Áp dụng theme từ file dark_light.dart
-            theme: lightTheme, // Theme sáng
-            darkTheme: darkTheme, // Theme tối
+            // 5. Thêm cấu hình localization
+            locale: langProvider.currentLocale, // Lấy locale từ provider
+            localizationsDelegates: const [
+              AppLocalizations.delegate, // Delegate từ file auto-gen
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            supportedLocales: const [
+              Locale('en'), // Tiếng Anh
+              Locale('vi'), // Tiếng Việt
+            ],
+            // --- Kết thúc thêm ---
 
-            // 7. Quyết định dùng theme nào dựa trên trạng thái của ThemeProvider
+            theme: lightTheme,
+            darkTheme: darkTheme,
             themeMode: themeProvider.themeMode,
 
-            home: const HomeScreen(), // Màn hình chính
+            home: const HomeScreen(),
           );
         },
       ),

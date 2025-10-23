@@ -2,8 +2,10 @@
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import '../providers/news_provider.dart';
-import '../widgets/app_drawer.dart'; // Đảm bảo bạn có file này
+import '../providers/language_provider.dart';
+import '../widgets/app_drawer.dart';
 import 'article_detail_screen.dart';
+import '../l10n/app_localizations.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -12,65 +14,108 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateMixin {
+class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   late TabController _tabController;
 
-  final Map<String, String> _categories = {
-    'Tin nóng': 'top',
-    'Xã hội': 'politics',
-    'Thế giới': 'world',
-    'Kinh tế': 'business',
-    'Khoa học': 'science',
-    'Văn hóa': 'entertainment',
-    'Thể thao': 'sports',
-    'Giải trí': 'entertainment',
-    'Pháp luật': 'crime',
-    'Giáo dục': 'education',
-    'Sức khỏe': 'health',
-    'Nhà đất': 'other',
-    'Xe cộ': 'technology',
-  };
+  // --- 3. Xóa Map _categories ở đây ---
+
+  // Biến để lưu trữ Map categories, sẽ được khởi tạo trong didChangeDependencies
+  Map<String, String> _categories = {};
 
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: _categories.length, vsync: this);
+    // Khởi tạo TabController với length = 0, sẽ cập nhật sau
+    _tabController = TabController(length: 0, vsync: this);
+  }
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+  // --- 4. Sử dụng didChangeDependencies ---
+  // Hàm này được gọi sau initState và mỗi khi dependencies thay đổi (như Locale)
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    final l10n = AppLocalizations.of(context)!;
+
+    // Định nghĩa categories DỰA TRÊN ngôn ngữ hiện tại
+    final newCategories = {
+      l10n.categoryTop: 'top',
+      l10n.categoryPolitics: 'politics',
+      l10n.categoryWorld: 'world',
+      l10n.categoryBusiness: 'business',
+      l10n.categoryScience: 'science',
+      l10n.categoryEntertainment: 'entertainment',
+      l10n.categorySports: 'sports',
+      l10n.categoryEntertainment2: 'entertainment',
+      l10n.categoryCrime: 'crime',
+      l10n.categoryEducation: 'education',
+      l10n.categoryHealth: 'health',
+      l10n.categoryOther: 'other',
+      l10n.categoryTechnology: 'technology',
+    };
+
+    // Chỉ cập nhật TabController nếu số lượng tab thay đổi
+    if (newCategories.length != _categories.length) {
+      _categories = newCategories;
+      _tabController.dispose(); // Hủy controller cũ
+      _tabController = TabController(length: _categories.length, vsync: this);
+
+      // Thêm listener để gọi API khi tab được chọn
+      _tabController.addListener(_handleTabSelection);
+
+      // Gọi API cho tab đầu tiên sau khi khởi tạo
+      _fetchInitialNews();
+    } else {
+      // Nếu chỉ đổi ngôn ngữ (số tab k đổi), cập nhật lại _categories
+      _categories = newCategories;
+    }
+  }
+
+  void _fetchInitialNews() {
+    if (_categories.isNotEmpty) {
       final initialCategory = _categories.values.first;
-      Provider.of<NewsProvider>(context, listen: false).fetchNewsByCategory(initialCategory);
-    });
+      // Lấy ngôn ngữ từ provider
+      final langCode = context.read<LanguageProvider>().currentLocale.languageCode;
+      Provider.of<NewsProvider>(context, listen: false).fetchNewsByCategory(initialCategory, langCode);
+    }
+  }
+
+  void _handleTabSelection() {
+    if (!_tabController.indexIsChanging) {
+      final categoryKey = _categories.values.elementAt(_tabController.index);
+      // Lấy ngôn ngữ từ provider
+      final langCode = context.read<LanguageProvider>().currentLocale.languageCode;
+      Provider.of<NewsProvider>(context, listen: false)
+          .fetchNewsByCategory(categoryKey, langCode);
+    }
   }
 
   @override
   void dispose() {
+    _tabController.removeListener(_handleTabSelection); // Xóa listener
     _tabController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    // 5. Lấy l10n
+    final l10n = AppLocalizations.of(context)!;
+
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 120,
         backgroundColor: Colors.orange,
         foregroundColor: Colors.white,
         elevation: 0,
-
-        // === SỬA 1 ===
-        // titleSpacing MẶC ĐỊNH SẼ CĂN LỀ TITLE VỚI ICON
-        // Xóa dòng titleSpacing: 0 đi, hoặc set nó về null
-        titleSpacing: NavigationToolbar.kMiddleSpacing, //Sử dụng giá trị mặc định
-
+        titleSpacing: NavigationToolbar.kMiddleSpacing,
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              // === SỬA 2 ===
-              // Xóa padding trái, để titleSpacing tự động căn lề
               padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
               child: Text(
-                'Tin tức 24h',
+                l10n.appName, // <-- 6. SỬA ĐỔI
                 style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
@@ -88,11 +133,6 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
             child: TabBar(
               controller: _tabController,
               isScrollable: true,
-
-              // === SỬA 3 ===
-              // XÓA BỎ HOÀN TOÀN DÒNG `padding` MÀ CHÚNG TA ĐÃ THÊM TRƯỚC ĐÓ
-              // padding: const EdgeInsets.only(left: 44.0), // <- XÓA DÒNG NÀY
-
               indicatorColor: Colors.white,
               labelColor: Colors.white,
               unselectedLabelColor: Colors.white70,
@@ -104,30 +144,28 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                 fontSize: 16,
               ),
               indicatorSize: TabBarIndicatorSize.tab,
+              // 7. Dùng _categories đã được cập nhật
               tabs: _categories.keys.map((String key) {
                 return Tab(text: key);
               }).toList(),
-              onTap: (index) {
-                final categoryKey = _categories.values.elementAt(index);
-                Provider.of<NewsProvider>(context, listen: false)
-                    .fetchNewsByCategory(categoryKey);
-              },
+              // Xóa hàm onTap vì đã xử lý bằng _handleTabSelection
             ),
           ),
         ),
       ),
-      drawer: const AppDrawer(), // Đảm bảo bạn có Widget AppDrawer này
+      drawer: const AppDrawer(),
       body: Consumer<NewsProvider>(
         builder: (context, newsProvider, child) {
-          // ... (Phần body giữ nguyên không thay đổi) ...
           if (newsProvider.isLoading && newsProvider.newsList.isEmpty) {
             return const Center(child: CircularProgressIndicator());
           }
 
           if (newsProvider.errorMessage != null && newsProvider.newsList.isEmpty) {
-            return Center(child: Text('Đã xảy ra lỗi: ${newsProvider.errorMessage}'));
+            // <-- 8. SỬA ĐỔI
+            return Center(child: Text(l10n.errorFetchingData(newsProvider.errorMessage!)));
           }
 
+          // ... (Phần body ListView.builder giữ nguyên) ...
           return ListView.builder(
             itemCount: newsProvider.newsList.length,
             itemBuilder: (context, index) {

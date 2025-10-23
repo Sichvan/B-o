@@ -1,49 +1,41 @@
 // lib/providers/news_provider.dart
-
 import 'package:flutter/material.dart';
 import '../models/news.dart';
 import '../services/api_service.dart';
 
-class NewsProvider with ChangeNotifier {
+class NewsProvider extends ChangeNotifier {
   final ApiService _apiService = ApiService();
-
   List<News> _newsList = [];
   bool _isLoading = false;
   String? _errorMessage;
 
-  // --- THÊM MỚI ---
-  // Quản lý category đang được chọn, mặc định là 'top' (Tin nóng)
-  String _selectedCategory = 'top';
-  // --- KẾT THÚC THÊM MỚI ---
-
   List<News> get newsList => _newsList;
   bool get isLoading => _isLoading;
   String? get errorMessage => _errorMessage;
-  String get selectedCategory => _selectedCategory; // Getter cho category
 
   // --- SỬA ĐỔI ---
-  // Đổi tên hàm và nhận tham số category
-  Future<void> fetchNewsByCategory(String category) async {
-    // Nếu chọn lại category cũ mà đã có dữ liệu thì không load lại
-    if (category == _selectedCategory && _newsList.isNotEmpty && !_isLoading) {
-      return;
+  // Thêm tham số 'language'
+  Future<void> fetchNewsByCategory(String category, String language) async {
+    // --- KẾT THÚC SỬA ĐỔI ---
+
+    // Chỉ set loading nếu list rỗng (tránh loading khi chuyển tab)
+    if (_newsList.isEmpty) {
+      _isLoading = true;
+      notifyListeners();
     }
 
-    _selectedCategory = category; // Cập nhật category
-    _isLoading = true;
-    _errorMessage = null;
-    notifyListeners(); // Báo cho UI biết là đang loading
+    _errorMessage = null; // Xóa lỗi cũ
 
     try {
-      // Gọi service với category được truyền vào
-      final news = await _apiService.fetchNews(category);
-      _newsList = news;
+      // --- SỬA ĐỔI ---
+      // Truyền 'language' vào service
+      _newsList = await _apiService.fetchNews(category, language);
+      // --- KẾT THÚC SỬA ĐỔI ---
     } catch (e) {
       _errorMessage = e.toString();
     } finally {
       _isLoading = false;
-      notifyListeners(); // Báo cho UI biết đã load xong
+      notifyListeners();
     }
   }
-// --- KẾT THÚC SỬA ĐỔI ---
 }
