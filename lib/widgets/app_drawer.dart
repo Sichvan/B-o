@@ -3,15 +3,41 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/theme_provider.dart';
 import '../providers/language_provider.dart';
+import '../providers/auth_provider.dart';
+import '../screens/auth_screen.dart';
 import '../l10n/app_localizations.dart';
 
 class AppDrawer extends StatelessWidget {
   const AppDrawer({super.key});
 
+  void _showLoginRequiredDialog(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text(l10n.loginRequiredTitle),
+        content: Text(l10n.loginRequiredMessage),
+        actions: [
+          TextButton(
+            child: Text(l10n.cancel),
+            onPressed: () => Navigator.of(ctx).pop(),
+          ),
+          TextButton(
+            child: Text(l10n.login), // Nút "Đăng nhập"
+            onPressed: () {
+              Navigator.of(ctx).pop(); // Đóng popup
+              Navigator.of(context).pushNamed(AuthScreen.routeName);
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    // 3. Lấy đối tượng l10n (localization)
     final l10n = AppLocalizations.of(context)!;
+    final auth = context.watch<AuthProvider>();
 
     return Drawer(
       child: ListView(
@@ -21,20 +47,20 @@ class AppDrawer extends StatelessWidget {
             decoration: BoxDecoration(
               color: Theme.of(context).primaryColor,
             ),
-            // 4. Thay thế text
             child: Text(
-              l10n.settingsAndMenu, // <-- SỬA
+              l10n.settingsAndMenu,
               style: TextStyle(
                 color: Theme.of(context).appBarTheme.foregroundColor,
                 fontSize: 24,
               ),
             ),
           ),
+
+          // --- Chế độ tối ---
           Consumer<ThemeProvider>(
             builder: (context, themeProvider, child) {
               return SwitchListTile(
-                // 4. Thay thế text
-                title: Text(l10n.darkMode), // <-- SỬA
+                title: Text(l10n.darkMode),
                 secondary: Icon(
                   themeProvider.isDarkMode ? Icons.dark_mode : Icons.light_mode,
                 ),
@@ -46,41 +72,75 @@ class AppDrawer extends StatelessWidget {
             },
           ),
 
+          // --- Chuyển ngôn ngữ ---
           ListTile(
             leading: const Icon(Icons.language),
-            // 4. Thay thế text
-            title: Text(l10n.switchLanguage), // <-- SỬA
+            title: Text(l10n.switchLanguage),
             onTap: () {
-              // 5. Thêm logic chuyển ngôn ngữ
               context.read<LanguageProvider>().toggleLanguage();
               Navigator.pop(context);
             },
           ),
+
+          // --- Bài báo đã lưu ---
           ListTile(
             leading: const Icon(Icons.bookmark_border),
-            // 4. Thay thế text
-            title: Text(l10n.savedArticles), // <-- SỬA
+            title: Text(l10n.savedArticles),
             onTap: () {
-              Navigator.pop(context);
+              if (auth.isAuth) {
+                // TODO: Điều hướng tới màn hình bài báo đã lưu
+              } else {
+                _showLoginRequiredDialog(context);
+              }
             },
           ),
+
+          // --- Lịch sử xem ---
           ListTile(
             leading: const Icon(Icons.history),
-            // 4. Thay thế text
-            title: Text(l10n.viewHistory), // <-- SỬA
+            title: Text(l10n.viewHistory),
             onTap: () {
-              Navigator.pop(context);
+              if (auth.isAuth) {
+                // TODO: Điều hướng tới màn hình lịch sử xem
+              } else {
+                _showLoginRequiredDialog(context);
+              }
             },
           ),
+
           const Divider(),
+
+          // --- Nút Đăng nhập / Đăng xuất ---
           ListTile(
-            leading: const Icon(Icons.login),
-            // 4. Thay thế text
-            title: Text(l10n.login), // <-- SỬA
+            leading: Icon(auth.isAuth ? Icons.logout : Icons.login),
+            title: Text(auth.isAuth ? l10n.logout : l10n.login), // Dùng l10n
             onTap: () {
-              Navigator.pop(context);
+              Navigator.pop(context); // Đóng drawer
+              if (auth.isAuth) {
+                context.read<AuthProvider>().logout();
+              } else {
+                Navigator.of(context).pushNamed(AuthScreen.routeName);
+              }
             },
           ),
+
+          // --- THÊM HIỂN THỊ EMAIL ---
+          if (auth.isAuth && auth.email != null)
+            ListTile(
+              leading: Icon(
+                Icons.account_circle,
+                color: Theme.of(context).disabledColor,
+              ),
+              title: Text(
+                auth.email!,
+                style: TextStyle(
+                  fontStyle: FontStyle.italic,
+                  color: Theme.of(context).disabledColor,
+                ),
+              ),
+              enabled: false, // Không cho bấm
+            ),
+          // --- KẾT THÚC THÊM ---
         ],
       ),
     );

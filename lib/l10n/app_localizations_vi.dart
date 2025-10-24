@@ -78,4 +78,56 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get noArticlesFound => 'Không tìm thấy bài viết nào.';
+
+  @override
+  String get loginRequiredTitle => 'Yêu cầu đăng nhập';
+
+  @override
+  String get loginRequiredMessage =>
+      'Bạn phải đăng nhập để sử dụng chức năng này.';
+
+  @override
+  String get cancel => 'Hủy';
+
+  @override
+  String get register => 'Đăng ký';
+
+  @override
+  String get loginSuccess => 'Đăng nhập thành công!';
+
+  @override
+  String get registrationSuccessTitle => 'Đăng ký thành công';
+
+  @override
+  String get registrationSuccessMessage => 'Tài khoản của bạn đã được tạo';
+
+  @override
+  String get errorTitle => 'Lỗi';
+
+  @override
+  String get ok => 'OK';
+
+  @override
+  String get email => 'Email';
+
+  @override
+  String get password => 'Mật khẩu';
+
+  @override
+  String get emailInvalid => 'Email không hợp lệ.';
+
+  @override
+  String get passwordInvalid => 'Mật khẩu phải có ít nhất 6 ký tự.';
+
+  @override
+  String get switchToRegister => 'Chưa có tài khoản? Đăng ký ngay';
+
+  @override
+  String get switchToLogin => 'Đã có tài khoản? Đăng nhập';
+
+  @override
+  String get logout => 'Đăng xuất';
+
+  @override
+  String get emailMustBeGmail => 'Email phải có đuôi @gmail.com.';
 }

@@ -8,6 +8,7 @@ import 'article_detail_screen.dart';
 import '../l10n/app_localizations.dart'; // Đảm bảo đường dẫn này đúng
 
 class HomeScreen extends StatefulWidget {
+  static const routeName = '/home';
   const HomeScreen({super.key});
 
   @override

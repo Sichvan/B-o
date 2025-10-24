@@ -78,4 +78,56 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get noArticlesFound => 'No articles found.';
+
+  @override
+  String get loginRequiredTitle => 'Login Required';
+
+  @override
+  String get loginRequiredMessage =>
+      'You must be logged in to use this feature.';
+
+  @override
+  String get cancel => 'Cancel';
+
+  @override
+  String get register => 'Register';
+
+  @override
+  String get loginSuccess => 'Login Successful!';
+
+  @override
+  String get registrationSuccessTitle => 'Registration Successful';
+
+  @override
+  String get registrationSuccessMessage => 'Your account has been created';
+
+  @override
+  String get errorTitle => 'Error';
+
+  @override
+  String get ok => 'OK';
+
+  @override
+  String get email => 'Email';
+
+  @override
+  String get password => 'Password';
+
+  @override
+  String get emailInvalid => 'Invalid email address.';
+
+  @override
+  String get passwordInvalid => 'Password must be at least 6 characters.';
+
+  @override
+  String get switchToRegister => 'No account? Register now';
+
+  @override
+  String get switchToLogin => 'Already have an account? Login';
+
+  @override
+  String get logout => 'Logout';
+
+  @override
+  String get emailMustBeGmail => 'Email must end with @gmail.com.';
 }

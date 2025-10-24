@@ -235,6 +235,108 @@ abstract class AppLocalizations {
   /// In vi, this message translates to:
   /// **'Không tìm thấy bài viết nào.'**
   String get noArticlesFound;
+
+  /// No description provided for @loginRequiredTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Yêu cầu đăng nhập'**
+  String get loginRequiredTitle;
+
+  /// No description provided for @loginRequiredMessage.
+  ///
+  /// In vi, this message translates to:
+  /// **'Bạn phải đăng nhập để sử dụng chức năng này.'**
+  String get loginRequiredMessage;
+
+  /// No description provided for @cancel.
+  ///
+  /// In vi, this message translates to:
+  /// **'Hủy'**
+  String get cancel;
+
+  /// No description provided for @register.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đăng ký'**
+  String get register;
+
+  /// No description provided for @loginSuccess.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đăng nhập thành công!'**
+  String get loginSuccess;
+
+  /// No description provided for @registrationSuccessTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đăng ký thành công'**
+  String get registrationSuccessTitle;
+
+  /// No description provided for @registrationSuccessMessage.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tài khoản của bạn đã được tạo'**
+  String get registrationSuccessMessage;
+
+  /// No description provided for @errorTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Lỗi'**
+  String get errorTitle;
+
+  /// No description provided for @ok.
+  ///
+  /// In vi, this message translates to:
+  /// **'OK'**
+  String get ok;
+
+  /// No description provided for @email.
+  ///
+  /// In vi, this message translates to:
+  /// **'Email'**
+  String get email;
+
+  /// No description provided for @password.
+  ///
+  /// In vi, this message translates to:
+  /// **'Mật khẩu'**
+  String get password;
+
+  /// No description provided for @emailInvalid.
+  ///
+  /// In vi, this message translates to:
+  /// **'Email không hợp lệ.'**
+  String get emailInvalid;
+
+  /// No description provided for @passwordInvalid.
+  ///
+  /// In vi, this message translates to:
+  /// **'Mật khẩu phải có ít nhất 6 ký tự.'**
+  String get passwordInvalid;
+
+  /// No description provided for @switchToRegister.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chưa có tài khoản? Đăng ký ngay'**
+  String get switchToRegister;
+
+  /// No description provided for @switchToLogin.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đã có tài khoản? Đăng nhập'**
+  String get switchToLogin;
+
+  /// No description provided for @logout.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đăng xuất'**
+  String get logout;
+
+  /// No description provided for @emailMustBeGmail.
+  ///
+  /// In vi, this message translates to:
+  /// **'Email phải có đuôi @gmail.com.'**
+  String get emailMustBeGmail;
 }
 
 class _AppLocalizationsDelegate
