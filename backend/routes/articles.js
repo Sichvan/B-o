@@ -5,6 +5,36 @@ const auth = require('../middleware/auth');
 const adminAuth = require('../middleware/adminAuth');
 const { check, validationResult } = require('express-validator');
 
+// @route   GET /api/articles/public
+// @desc    Lấy bài viết của Admin (công khai), lọc theo category và language
+// @access  Public
+router.get('/public', async (req, res) => {
+  try {
+    const { category, language } = req.query; // Lấy category và language
+
+    // Xây dựng đối tượng filter
+    const filter = {};
+    if (category) {
+      filter.category = category;
+    }
+    if (language) {
+      filter.language = language;
+    }
+
+    const articles = await Article.find(filter) // Sử dụng filter
+      .populate('author', ['email'])
+      .sort({ createdAt: -1 });
+
+    res.json(articles);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+// @route   POST /api/articles
+// @desc    Admin tạo bài viết mới
+// @access  Private (Admin)
 router.post(
   '/',
   [
@@ -36,7 +66,10 @@ router.post(
       });
 
       const article = await newArticle.save();
-      res.status(201).json(article);
+      // Populate author email for immediate use in frontend
+      const populatedArticle = await Article.findById(article._id).populate('author', ['email']);
+      res.status(201).json(populatedArticle); // Trả về bài viết đã populate
+
     } catch (err) {
       console.error(err.message);
       res.status(500).send('Server Error');
@@ -44,6 +77,9 @@ router.post(
   }
 );
 
+// @route   GET /api/articles
+// @desc    Admin lấy TẤT CẢ bài viết (để quản lý)
+// @access  Private (Admin)
 router.get('/', [auth, adminAuth], async (req, res) => {
   try {
     const articles = await Article.find()
@@ -56,6 +92,9 @@ router.get('/', [auth, adminAuth], async (req, res) => {
   }
 });
 
+// @route   PUT /api/articles/:id
+// @desc    Admin cập nhật bài viết
+// @access  Private (Admin)
 router.put('/:id', [auth, adminAuth], async (req, res) => {
   const { title, content, imageUrl, language, category } = req.body;
 
@@ -76,7 +115,7 @@ router.put('/:id', [auth, adminAuth], async (req, res) => {
       req.params.id,
       { $set: articleFields },
       { new: true }
-    ).populate('author', ['email']);
+    ).populate('author', ['email']); // Populate cả khi update
 
     res.json(article);
   } catch (err) {
@@ -85,6 +124,9 @@ router.put('/:id', [auth, adminAuth], async (req, res) => {
   }
 });
 
+// @route   DELETE /api/articles/:id
+// @desc    Admin xóa bài viết
+// @access  Private (Admin)
 router.delete('/:id', [auth, adminAuth], async (req, res) => {
   try {
     let article = await Article.findById(req.params.id);
@@ -102,3 +144,4 @@ router.delete('/:id', [auth, adminAuth], async (req, res) => {
 });
 
 module.exports = router;
+

@@ -11,6 +11,9 @@ import 'screens/admin/admin_dashboard_screen.dart';
 import 'screens/admin/admin_manage_users_screen.dart';
 import 'screens/admin/admin_manage_articles_screen.dart';
 import 'screens/admin/admin_edit_article_screen.dart';
+// THÊM DÒNG NÀY:
+import 'screens/article_detail_admin_content_screen.dart';
+
 import 'screens/splash_screen.dart';
 import 'theme/dark_light.dart';
 import 'l10n/app_localizations.dart';
@@ -30,7 +33,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => ThemeProvider()),
         ChangeNotifierProvider(create: (context) => LanguageProvider()),
         ChangeNotifierProvider(create: (context) => AuthProvider()),
-        ChangeNotifierProvider(create: (context) => AdminProvider()), // <-- ĐÃ THÊM
+        ChangeNotifierProvider(create: (context) => AdminProvider()),
       ],
       child: Consumer2<ThemeProvider, LanguageProvider>(
         builder: (context, themeProvider, langProvider, child) {
@@ -38,12 +41,14 @@ class MyApp extends StatelessWidget {
             title: 'News App',
             debugShowCheckedModeBanner: false,
             locale: langProvider.currentLocale,
+            // --- SỬA LỖI TYPO TẠI ĐÂY ---
             localizationsDelegates: const [
               AppLocalizations.delegate,
               GlobalMaterialLocalizations.delegate,
               GlobalWidgetsLocalizations.delegate,
               GlobalCupertinoLocalizations.delegate,
             ],
+            // --- KẾT THÚC SỬA ---
             supportedLocales: const [
               Locale('en'),
               Locale('vi'),
@@ -70,15 +75,16 @@ class MyApp extends StatelessWidget {
                         ConnectionState.waiting) {
                       return const SplashScreen();
                     }
+                    // Sau khi auto-login, kiểm tra lại
                     if (auth.isAuth && auth.role == 'admin') {
                       return const AdminDashboardScreen();
                     }
+                    // Mặc định trả về HomeScreen (dù đã login hay chưa)
                     return const HomeScreen();
                   },
                 );
               },
             ),
-            // CẬP NHẬT routes
             routes: {
               AuthScreen.routeName: (ctx) => const AuthScreen(),
               HomeScreen.routeName: (ctx) => const HomeScreen(),
@@ -86,11 +92,14 @@ class MyApp extends StatelessWidget {
               const AdminDashboardScreen(),
               AdminManageUsersScreen.routeName: (ctx) =>
               const AdminManageUsersScreen(),
-              // THÊM 2 ROUTE MỚI
               AdminManageArticlesScreen.routeName: (ctx) =>
               const AdminManageArticlesScreen(),
               AdminEditArticleScreen.routeName: (ctx) =>
               const AdminEditArticleScreen(),
+
+              // THÊM ROUTE NÀY:
+              ArticleDetailAdminContentScreen.routeName: (ctx) =>
+              const ArticleDetailAdminContentScreen(),
             },
           );
         },

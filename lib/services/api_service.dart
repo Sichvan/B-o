@@ -17,7 +17,25 @@ class ApiService {
     }
   }
 
-  // --- HÀM MỚI CHO ADMIN ---
+  // --- THÊM HÀM MỚI (CÔNG KHAI) ---
+  // Lấy bài viết của Admin (công khai) đã lọc
+  Future<List<dynamic>> fetchPublicAdminArticles(
+      String category, String language) async {
+    // Gửi category và language làm query params
+    final url =
+        '$_baseUrl/articles/public?category=$category&language=$language';
+    final response = await http.get(
+      Uri.parse(url),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    );
+    // Sử dụng _handleResponse đã có
+    return _handleResponse(response) as List<dynamic>;
+  }
+
+
+  // --- HÀM CHO ADMIN (BẢO MẬT) ---
 
   // Helper private để xử lý response, trả về dynamic
   dynamic _handleResponse(http.Response response) {
@@ -60,10 +78,8 @@ class ApiService {
 
   // --- Quản lý Bài viết ---
   Future<List<dynamic>> adminFetchArticles(String token) async {
-    // --- SỬA LỖI TẠI ĐÂY ---
-    // URL đúng là '/articles' (đã có auth, adminAuth)
+    // URL này lấy TẤT CẢ bài viết để admin quản lý
     final url = '$_baseUrl/articles';
-    // --- KẾT THÚC SỬA ---
     final response = await http.get(
       Uri.parse(url),
       headers: {
