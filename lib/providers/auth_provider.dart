@@ -1,4 +1,3 @@
-// lib/providers/auth_provider.dart
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -8,16 +7,15 @@ class AuthProvider extends ChangeNotifier {
   String? _token;
   String? _role;
   String? _userId;
-  String? _email; // <-- 1. THÊM BIẾN EMAIL
+  String? _email;
 
-  // Dùng IP của server Node.js
   final String _baseUrl = 'http://10.0.2.2:5000/api/auth';
 
   bool get isAuth => _token != null;
   String? get token => _token;
   String? get role => _role;
   String? get userId => _userId;
-  String? get email => _email; // <-- 2. THÊM GETTER CHO EMAIL
+  String? get email => _email;
 
   Future<void> _authenticate(
       String email, String password, String endpoint) async {
@@ -29,7 +27,6 @@ class AuthProvider extends ChangeNotifier {
         body: json.encode({'email': email, 'password': password}),
       );
 
-      // Sửa logic xử lý lỗi (an toàn hơn)
       if (response.statusCode != 200 && response.statusCode != 201) {
         try {
           final responseData = json.decode(response.body);
@@ -39,26 +36,22 @@ class AuthProvider extends ChangeNotifier {
         }
       }
 
-      // Chỉ decode khi đã thành công
       final responseData = json.decode(response.body);
 
-      // Lưu state
       _token = responseData['token'];
       _role = responseData['user']['role'];
       _userId = responseData['user']['id'];
-      _email = responseData['user']['email']; // <-- 3. LƯU EMAIL TỪ RESPONSE
+      _email = responseData['user']['email'];
 
       notifyListeners();
-
-      // Lưu vào bộ nhớ máy
       final prefs = await SharedPreferences.getInstance();
       prefs.setString('token', _token!);
       prefs.setString('role', _role!);
       prefs.setString('userId', _userId!);
-      prefs.setString('email', _email!); // <-- 4. LƯU EMAIL VÀO PREFS
+      prefs.setString('email', _email!);
 
     } catch (error) {
-      rethrow; // Ném lỗi ra để AuthScreen xử lý
+      rethrow;
     }
   }
 

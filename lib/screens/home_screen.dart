@@ -1,11 +1,10 @@
-// lib/screens/home_screen.dart
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import '../providers/news_provider.dart';
 import '../providers/language_provider.dart';
 import '../widgets/app_drawer.dart';
 import 'article_detail_screen.dart';
-import '../l10n/app_localizations.dart'; // Đảm bảo đường dẫn này đúng
+import '../l10n/app_localizations.dart';
 
 class HomeScreen extends StatefulWidget {
   static const routeName = '/home';
@@ -94,8 +93,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
     return Scaffold(
       appBar: AppBar(
-        // --- 1. SỬA APPBAR ---
-        toolbarHeight: 60, // Giảm chiều cao vì không còn TabBar
+        toolbarHeight: 60,
         backgroundColor: Theme.of(context).primaryColor,
         foregroundColor: Colors.white,
         elevation: 0,
@@ -108,12 +106,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             fontSize: 24,
           ),
         ),
-        // --- 2. XÓA BỎ 'bottom' KHỎI APPBAR ---
       ),
       drawer: const AppDrawer(),
       body: Column(
         children: [
-          // --- 3. THANH TÌM KIẾM (GIỮ NGUYÊN) ---
           Padding(
             padding: const EdgeInsets.all(10.0),
             child: TextField(
@@ -134,7 +130,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             ),
           ),
 
-          // --- 4. THÊM TABBAR VÀO ĐÂY ---
           Container(
             color: Theme.of(context).primaryColor,
             child: TabBar(
@@ -157,7 +152,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             ),
           ),
 
-          // --- 5. DANH SÁCH BÀI VIẾT (GIỮ NGUYÊN) ---
           Expanded(
             child: Consumer<NewsProvider>(
               builder: (context, newsProvider, child) {

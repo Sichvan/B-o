@@ -24,15 +24,10 @@ class _ArticleDetailScreenState extends State<ArticleDetailScreen> {
   @override
   void initState() {
     super.initState();
-    // Gọi parseAsync để extract nội dung từ URL
     _articleFuture = readability.parseAsync(widget.articleUrl).then((article) {
-      // Không cần kiểm tra null ở đây vì parseAsync có thể trả về null, nhưng then sẽ xử lý
-      // debugPrint('Title: ${article.title}');  // Thay print bằng debugPrint nếu cần, hoặc bỏ
-      // debugPrint('Content length: ${article.content?.length ?? 0}');  // Safe access
       return article;
           return null;
     }).catchError((error) {
-      // debugPrint('Lỗi khi fetch/parse: $error');  // Tương tự
       return null;
     });
   }
@@ -73,18 +68,16 @@ class _ArticleDetailScreenState extends State<ArticleDetailScreen> {
               ),
             );
           } else {
-            // Hiển thị nội dung sạch
-            final article = snapshot.data!;  // Safe vì đã check null
-            final title = article.title ?? widget.articleTitle;  // Fallback nếu title null
-            final content = article.content ?? '';  // Fallback empty string
-            final excerpt = article.excerpt ?? '';  // Tương tự
+            final article = snapshot.data!;
+            final title = article.title ?? widget.articleTitle;
+            final content = article.content ?? '';
+            final excerpt = article.excerpt ?? '';
 
             return SingleChildScrollView(
               padding: const EdgeInsets.all(16.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Title an toàn
                   Text(
                     title.isNotEmpty ? title : widget.articleTitle,
                     style: Theme.of(context).textTheme.headlineSmall?.copyWith(
@@ -92,7 +85,6 @@ class _ArticleDetailScreenState extends State<ArticleDetailScreen> {
                     ),
                   ),
                   const SizedBox(height: 16),
-                  // Render nội dung HTML sạch (loại bỏ ads)
                   if (content.isNotEmpty)
                     Html(
                       data: content,
@@ -103,8 +95,6 @@ class _ArticleDetailScreenState extends State<ArticleDetailScreen> {
                         ),
                       },
                       onLinkTap: (url, _, __) {
-                        // Xử lý click link nếu cần (mở WebView hoặc browser)
-                        // debugPrint('Link tapped: $url');
                       },
                     )
                   else
@@ -112,7 +102,6 @@ class _ArticleDetailScreenState extends State<ArticleDetailScreen> {
                       'Không có nội dung.',
                       style: TextStyle(color: Colors.grey),
                     ),
-                  // Tùy chọn: Hiển thị excerpt nếu muốn
                   if (excerpt.isNotEmpty) ...[
                     const SizedBox(height: 16),
                     Text(

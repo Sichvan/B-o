@@ -1,23 +1,22 @@
 import 'package:flutter/material.dart';
 
 // --- Theme Sáng ---
-// Giao diện sáng sủa với màu cam làm chủ đạo, tạo cảm giác năng động, vui tươi.
 final ThemeData lightTheme = ThemeData(
   brightness: Brightness.light,
-  primarySwatch: Colors.orange, // Màu cho các widget chính như CircularProgressIndicator
-  primaryColor: Colors.orange, // Màu chính của ứng dụng
+  primarySwatch: Colors.orange,
+  primaryColor: Colors.orange,
   useMaterial3: true,
   appBarTheme: const AppBarTheme(
-    backgroundColor: Colors.orange, // AppBar màu cam
-    foregroundColor: Colors.white, // Chữ và icon trên AppBar màu trắng
-    elevation: 2, // Thêm một chút bóng đổ cho AppBar
+    backgroundColor: Colors.orange,
+    foregroundColor: Colors.white,
+    elevation: 2,
     titleTextStyle: TextStyle(
       color: Colors.white,
       fontSize: 20,
       fontWeight: FontWeight.bold,
     ),
   ),
-  scaffoldBackgroundColor: Colors.grey[100], // Màu nền chung cho các trang
+  scaffoldBackgroundColor: Colors.grey[100],
   floatingActionButtonTheme: const FloatingActionButtonThemeData(
     backgroundColor: Colors.orange,
     foregroundColor: Colors.white,
@@ -40,9 +39,7 @@ final ThemeData darkTheme = ThemeData(
   primaryColor: Colors.blue,
   useMaterial3: true,
   appBarTheme: const AppBarTheme(
-    // --- SỬA Ở ĐÂY ---
-    backgroundColor: Colors.blue, // Đổi từ Colors.black thành Colors.blue
-    // --- KẾT THÚC SỬA ---
+    backgroundColor: Colors.blue,
     foregroundColor: Colors.white,
     titleTextStyle: TextStyle(
       color: Colors.white,

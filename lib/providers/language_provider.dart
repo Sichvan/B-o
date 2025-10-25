@@ -1,8 +1,7 @@
-// lib/providers/language_provider.dart
 import 'package:flutter/material.dart';
 
 class LanguageProvider extends ChangeNotifier {
-  Locale _currentLocale = const Locale('vi'); // Ngôn ngữ mặc định là Tiếng Việt
+  Locale _currentLocale = const Locale('vi');
 
   Locale get currentLocale => _currentLocale;
 

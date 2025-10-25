@@ -1,10 +1,12 @@
-// backend/server.js
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const newsRoutes = require('./routes/news');
 const authRoutes = require('./routes/auth');
+const adminRoutes = require('./routes/admin');
+const articleRoutes = require('./routes/articles');
+
 const app = express();
 const PORT = process.env.PORT || 5000;
 
@@ -14,12 +16,13 @@ mongoose.connect(process.env.MONGODB_URI)
     console.error('❌ MongoDB Connection Error:', err.message);
     process.exit(1);
   });
-
 app.use(cors());
 app.use(express.json());
-
 app.use('/api/news', newsRoutes);
 app.use('/api/auth', authRoutes);
+app.use('/api/admin', adminRoutes);
+app.use('/api/articles', articleRoutes);
+
 app.get('/health', (req, res) => {
   res.status(200).json({ status: 'Server OK', message: 'Backend News App running!' });
 });

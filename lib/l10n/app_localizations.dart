@@ -101,7 +101,7 @@ abstract class AppLocalizations {
   /// No description provided for @appName.
   ///
   /// In vi, this message translates to:
-  /// **'Tin tức 24h'**
+  /// **'Báo lá cải'**
   String get appName;
 
   /// No description provided for @settingsAndMenu.

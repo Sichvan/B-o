@@ -1,4 +1,3 @@
-// lib/widgets/app_drawer.dart
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/theme_provider.dart';
@@ -23,9 +22,9 @@ class AppDrawer extends StatelessWidget {
             onPressed: () => Navigator.of(ctx).pop(),
           ),
           TextButton(
-            child: Text(l10n.login), // Nút "Đăng nhập"
+            child: Text(l10n.login),
             onPressed: () {
-              Navigator.of(ctx).pop(); // Đóng popup
+              Navigator.of(ctx).pop();
               Navigator.of(context).pushNamed(AuthScreen.routeName);
             },
           ),
@@ -56,7 +55,6 @@ class AppDrawer extends StatelessWidget {
             ),
           ),
 
-          // --- Chế độ tối ---
           Consumer<ThemeProvider>(
             builder: (context, themeProvider, child) {
               return SwitchListTile(
@@ -72,7 +70,6 @@ class AppDrawer extends StatelessWidget {
             },
           ),
 
-          // --- Chuyển ngôn ngữ ---
           ListTile(
             leading: const Icon(Icons.language),
             title: Text(l10n.switchLanguage),
@@ -82,7 +79,6 @@ class AppDrawer extends StatelessWidget {
             },
           ),
 
-          // --- Bài báo đã lưu ---
           ListTile(
             leading: const Icon(Icons.bookmark_border),
             title: Text(l10n.savedArticles),
@@ -95,7 +91,6 @@ class AppDrawer extends StatelessWidget {
             },
           ),
 
-          // --- Lịch sử xem ---
           ListTile(
             leading: const Icon(Icons.history),
             title: Text(l10n.viewHistory),
@@ -110,12 +105,11 @@ class AppDrawer extends StatelessWidget {
 
           const Divider(),
 
-          // --- Nút Đăng nhập / Đăng xuất ---
           ListTile(
             leading: Icon(auth.isAuth ? Icons.logout : Icons.login),
             title: Text(auth.isAuth ? l10n.logout : l10n.login), // Dùng l10n
             onTap: () {
-              Navigator.pop(context); // Đóng drawer
+              Navigator.pop(context);
               if (auth.isAuth) {
                 context.read<AuthProvider>().logout();
               } else {
@@ -124,7 +118,6 @@ class AppDrawer extends StatelessWidget {
             },
           ),
 
-          // --- THÊM HIỂN THỊ EMAIL ---
           if (auth.isAuth && auth.email != null)
             ListTile(
               leading: Icon(
@@ -138,9 +131,8 @@ class AppDrawer extends StatelessWidget {
                   color: Theme.of(context).disabledColor,
                 ),
               ),
-              enabled: false, // Không cho bấm
+              enabled: false,
             ),
-          // --- KẾT THÚC THÊM ---
         ],
       ),
     );
